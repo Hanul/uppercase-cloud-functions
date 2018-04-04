@@ -1,8 +1,8 @@
 {
 	"name": "uppercase-cloud-functions",
-	"version": "0.0.5",
+	"version": "0.0.8",
 	"dependencies": {
-		"uppercase-core-common": "^1.2.0"
+		"uppercase-core": "^1.2.0"
 	},
 	"main": "index.js"
 }

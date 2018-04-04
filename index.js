@@ -1,4 +1,4 @@
-require('uppercase-core-common');
+require('uppercase-core');
 
 global.CLOUD_FUNCTION = METHOD((m) => {
 	
