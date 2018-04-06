@@ -1,4 +1,17 @@
-require('uppercase-core');
+require('uppercase-core-common');
+
+// UPPERCASE-CORE-NODE에서 필요한 것들 추가
+require('./NODE/NODE_CONFIG.js');
+require('./NODE/BOX.js');
+// HTTP 요청 관련
+require('./NODE/REQUEST/REQUEST.js');
+require('./NODE/REQUEST/GET.js');
+require('./NODE/REQUEST/POST.js');
+require('./NODE/REQUEST/PUT.js');
+require('./NODE/REQUEST/DELETE.js');
+// 파일 처리 관련
+require('./NODE/FILE/CHECK_FILE_EXISTS.js');
+require('./NODE/FILE/READ_FILE.js');
 
 global.CLOUD_FUNCTION = METHOD((m) => {
 	
