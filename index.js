@@ -48,7 +48,7 @@ global.CLOUD_FUNCTION = METHOD((m) => {
 						} else {
 							res.status(200).send(result);
 						}
-					});
+					}, req.headers);
 				}
 			};
 		}
