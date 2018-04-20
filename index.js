@@ -13,6 +13,10 @@ require('./NODE/REQUEST/DELETE.js');
 require('./NODE/FILE/CHECK_FILE_EXISTS.js');
 require('./NODE/FILE/READ_FILE.js');
 
+const querystring = require('querystring');
+
+global.ENCRYPTION_KEY = '_';
+
 global.CLOUD_FUNCTION = METHOD((m) => {
 	
 	const avoidColdStartProcesses = [];
@@ -20,6 +24,20 @@ global.CLOUD_FUNCTION = METHOD((m) => {
 	// cold start 방지용 처리 추가
 	m.addAvoidColdStartProcess = (process) => {
 		avoidColdStartProcesses.push(process);
+	};
+	
+	let encrypt = (text) => {
+		let result = '';
+		let keySize = ENCRYPTION_KEY.length;
+		let keyCount = 0;
+		for (let i = 0; i < text.length; i += 1) {
+			result += String.fromCharCode(text.charCodeAt(i) ^ ENCRYPTION_KEY.charCodeAt(keyCount));
+			keyCount += 1;
+			if (keyCount === keySize) {
+				keyCount = 0;
+			}
+		}
+		return result;
 	};
 	
 	return {
@@ -39,6 +57,11 @@ global.CLOUD_FUNCTION = METHOD((m) => {
 				}
 				
 				else {
+					
+					// 암호화 되어있으면 복호화합니다.
+					if (data.__ENCRYPT !== undefined) {
+						data = querystring.parse(encrypt(data.__ENCRYPT));
+					}
 					
 					f(data, () => {
 						res.status(500).end();
