@@ -59,19 +59,38 @@ global.CLOUD_FUNCTION = METHOD((m) => {
 				else {
 					
 					// 암호화 되어있으면 복호화합니다.
-					if (data.__ENCRYPT !== undefined) {
-						data = querystring.parse(encrypt(data.__ENCRYPT));
+					if (ENCRYPTION_KEY !== '_') {
+						
+						if (data.__ENCRYPT !== undefined) {
+							
+							f(querystring.parse(encrypt(data.__ENCRYPT)), () => {
+								res.status(500).end();
+							}, (result) => {
+								if (CHECK_IS_DATA(result) === true || CHECK_IS_ARRAY(result) === true) {
+									res.status(200).send(STRINGIFY(result));
+								} else {
+									res.status(200).send(result);
+								}
+							}, req.headers);
+						}
+						
+						else {
+							res.status(500).end();
+						}
 					}
 					
-					f(data, () => {
-						res.status(500).end();
-					}, (result) => {
-						if (CHECK_IS_DATA(result) === true || CHECK_IS_ARRAY(result) === true) {
-							res.status(200).send(STRINGIFY(result));
-						} else {
-							res.status(200).send(result);
-						}
-					}, req.headers);
+					else {
+						
+						f(data, () => {
+							res.status(500).end();
+						}, (result) => {
+							if (CHECK_IS_DATA(result) === true || CHECK_IS_ARRAY(result) === true) {
+								res.status(200).send(STRINGIFY(result));
+							} else {
+								res.status(200).send(result);
+							}
+						}, req.headers);
+					}
 				}
 			};
 		}

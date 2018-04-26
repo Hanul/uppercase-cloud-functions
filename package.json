@@ -1,6 +1,6 @@
 {
 	"name": "uppercase-cloud-functions",
-	"version": "0.9.8",
+	"version": "1.0.0",
 	"dependencies": {
 		"uppercase-core-common": "^1.2.0"
 	},
